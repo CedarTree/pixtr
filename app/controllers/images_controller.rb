@@ -24,10 +24,13 @@ class ImagesController < ApplicationController
 	def update
 		@gallery = Gallery.find(params[:gallery_id])
 		@image = @gallery.images.find(params[:id])
-		@image.update(image_params)
+	
 
-		redirect_to @gallery
-
+		if 	@image.update(image_params)
+			redirect_to @gallery
+		else 
+			render :edit
+		end
 	end
 
 	private
