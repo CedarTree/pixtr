@@ -12,24 +12,27 @@ class GalleriesController < ApplicationController
 	end
 
 	def create
-        #gallery = Gallery.create(gallery_params)
-        @gallery = Gallery.new(gallery_params)
-          if @gallery.save
-             redirect_to @gallery
-             #If saving failed. Show the form again. 
-          else
-             #@gallery = Gallery.new
-             #need to show to view
-             render :new
-          end
+      params_with_user_id = gallery_params.merge(user_id: current_user.id)
+
+      @gallery = Gallery.new(params_with_user_id)
+      if @gallery.save
+        redirect_to @gallery
+      else
+        render :new
+      end
   end
 
   def edit
-    	@gallery = Gallery.find(params[:id])
+    	# @gallery = Gallery.find(params[:id])
+      # the_user = current_user
+      # galleries_owned_by_the = the_user.galleries
+      # @gallery = galleries_owned_by_them.find(params[:id])
+
+      @gallery = current_user.galleries.find(params[:id])
   end
 
   def update
-    	@gallery = Gallery.find(params[:id])  
+    	@gallery = current_user.galleries.find(params[:id])  
     	
     	if @gallery.update(gallery_params)
         redirect_to @gallery
