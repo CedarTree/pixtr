@@ -7,6 +7,8 @@ class Gallery < ActiveRecord::Base
 end
 
 # gallery = Gallery.new
+#
+# make changes to the databse below. not new. 
 # gallery.save
 # Gallery.create
 # gallery.update

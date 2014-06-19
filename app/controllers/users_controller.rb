@@ -1,24 +1,25 @@
 class UsersController < ApplicationController
-   def new
- 	   @user = User.new
-   end
+  skip_before_action :require_login, only: [:new, :create]
 
-   def create
-       @user = User.new(user_params)
+  def new
+    @user = User.new
+  end
 
-       if @user.save
-       	redirect_to root_path
-       else
-       	render :new
-       end
-   end
+  def create
+    @user = sign_up(user_params)
 
-    private 
-    def user_params
-    	params.require(:user).permit(
-             :email,
-             :password,
-             :password_confirmation
-    		)
+    if @user.valid?
+      sign_in(@user)
+      redirect_to root_path
+    else
+      render :new
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:email, :password)
+  end
 end
+
