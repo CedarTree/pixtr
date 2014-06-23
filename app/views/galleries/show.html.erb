@@ -2,16 +2,16 @@
 <p>Proudly owned by <%= @gallery.user.email %></p>
 <p><%= @gallery.description %></p>
 
-<% if current_user == @gallery.user %>
-
 <% @gallery.images.each do |image| %>
-<img src="<%= image.url %>">
-<%= link_to "Edit an image", [:edit, image] %>
-<%= time_ago_in_words image.created_at %>
+<%= link_to image do %>
+<%= image_tag image.url%>
 <% end %>
 
+<%= link_to "Edit this image", [:edit, image] %>
+Created <%= time_ago_in_words image.created_at %> ago
+<% end %>
 
-
+<% if current_user.id == @gallery.user_id %>
 <%= link_to "Add an image", "/galleries/#{@gallery.id}/images/new" %>
 <%= link_to "Edit a gallery", "/galleries/#{@gallery.id}/edit"%>
 <%= link_to "Delete a gallery", "/galleries/#{@gallery.id}", method: :delete %> 

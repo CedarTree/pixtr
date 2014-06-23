@@ -4,10 +4,19 @@ class ImagesController < ApplicationController
 		@image = Image.new
 	end
 
+
+	def show
+		@image = Image.find(params[:id])
+		@comment = Comment.new
+		@comments = @image.comments.recent
+
+		#@comments = @image.comments.order(created_at: :desc)
+	end
+	
 	def create
 		# params image url
 		@gallery = current_user.galleries.find(params[:gallery_id])
-		@image = @gallery.images.new(image_params)
+		@image = @gallery.images.new(params[image_params])
 
 		if @image.save
 			redirect_to @gallery
