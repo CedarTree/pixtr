@@ -7,6 +7,7 @@
 <% @gallery.images.each do |image| %>
 <img src="<%= image.url %>">
 <%= link_to "Edit an image", [:edit, @gallery, image] %>
+<%= time_ago_in_words image.created_at %>
 <% end %>
 
 
